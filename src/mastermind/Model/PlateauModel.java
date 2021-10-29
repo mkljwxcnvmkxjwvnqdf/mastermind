@@ -23,6 +23,7 @@ public class PlateauModel {
         colors.add(Color.black);
         colors.add(Color.magenta);
         colors.add(Color.cyan);
+        colors.add(Color.green);
     }
 
     public ArrayList<Color> getColors() {
