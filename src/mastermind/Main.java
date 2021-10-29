@@ -1,13 +1,12 @@
 package mastermind;
 
-import mastermind.View.JframeView;
+import mastermind.View.PlateauView;
 
 public class Main {
 
     public static void main(String[] args)
     {
-        JframeView w1 = new JframeView();
-        w1.createWindow();
+        new PlateauView();
     }
 
 }
