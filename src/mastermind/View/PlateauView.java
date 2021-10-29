@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.sql.Connection;
 import java.util.Arrays;
 
-public class PlateauView {
+public class PlateauView extends JFrame{
     private String label;
     protected PlateauModel model;
     protected PlateauController controller;
