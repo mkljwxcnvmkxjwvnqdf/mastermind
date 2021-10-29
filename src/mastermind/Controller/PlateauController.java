@@ -13,18 +13,26 @@ public class PlateauController implements CombinaisonController {
     private PlateauModel model;
 
 
-
     public PlateauController(PlateauModel m) {
         model = m;
     }
 
     @Override
-    public void genererCmb(ArrayList<Color> c, Integer n, Integer m) {
+    public ArrayList<Color> genererCmb(ArrayList<Color> c, Integer n, Integer m) {
+        int difference = c.size() - m;
+        ArrayList<Color> combiQuatreCouleur = new ArrayList<Color>();
+        for (int i = 0; i < difference; i++) {
+            int rando = (int) ((Math.random() * c.size()));
+            c.remove(rando);
+            c.get(i);
+        }
+        Random rand = new Random();
 
+        return combiQuatreCouleur;
     }
 
     @Override
-    public String saisirCmb(ArrayList<Color> c, Integer n, Integer m) {
+    public ArrayList<Color> saisirCmb(ArrayList<Color> c, Integer n, Integer m) {
         return null;
     }
 

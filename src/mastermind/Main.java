@@ -1,12 +1,18 @@
 package mastermind;
 
+import mastermind.Controller.PlateauController;
+import mastermind.Model.PlateauModel;
 import mastermind.View.PlateauView;
 
 public class Main {
-    final Integer MAX_TENTATIVES = 10;
+    final static Integer MAX_TENTATIVES = 10;
     public static void main(String[] args)
     {
-        new PlateauView();
+        PlateauModel pm = new PlateauModel(MAX_TENTATIVES, 4,6);
+       PlateauController Pc = new PlateauController(pm);
+       Pc.genererCmb(pm.getColors(),4,6);
+
+
     }
 
 }
