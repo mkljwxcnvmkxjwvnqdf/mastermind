@@ -9,20 +9,21 @@ import javax.swing.*;
 import java.awt.*;
 import java.sql.Connection;
 
-public class PlateauView extends JPanel{
+public class PlateauView extends JFrame{
     protected PlateauModel model;
     protected PlateauController controller;
+    private GridLayout gl1;
     private JFrame frame;
     private JPanel p1,p2,p3;
     private JTextField t1;
     private JTabbedPane onglets;
     private JButton b1;
-    Connection conn = Bdd.getInstance().getConn();
+    //Connection conn = Bdd.getInstance().getConn();
 
     public PlateauView()
     {
         frame = new JFrame("Mastermind");
-        frame.setSize(400,400);
+        frame.setSize(1280,720);
 
         onglets = new JTabbedPane();
         onglets.setBounds(0,0,1280,720);
@@ -47,7 +48,6 @@ public class PlateauView extends JPanel{
         frame.setLayout(null);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
     }
 
 }
