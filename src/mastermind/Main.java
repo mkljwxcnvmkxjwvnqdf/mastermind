@@ -10,7 +10,8 @@ public class Main {
     {
         PlateauModel pm = new PlateauModel(MAX_TENTATIVES, 4,6);
        PlateauController Pc = new PlateauController(pm);
-       Pc.genererCmb(pm.getColors(),4,6);
+       Pc.test_cmb(pm.getColors(),4,6);
+       Pc.test_cmb(pm.getColors(),4,6);
 
 
     }
