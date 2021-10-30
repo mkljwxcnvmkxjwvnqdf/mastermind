@@ -8,10 +8,9 @@ public class PlateauModel {
 
     private ArrayList<Color> colors = new ArrayList<Color>();
     private ArrayList<Color> combinaisonSecrete = new ArrayList<Color>();
+    private ArrayList<Color> copieCombinaisonSecrete = new ArrayList<Color>();
     private ArrayList<Color> combinaisonJoueur = new ArrayList<Color>();
     private final Integer CMAX = 6;
-    private final Integer BIEN_PLACE = -1;
-    private final Integer MAL_PLACE = 0;
     private Integer n;
     private Integer m;
     private String c1;
@@ -58,6 +57,14 @@ public class PlateauModel {
 
     public void setCombinaisonSecrete(ArrayList<Color> combinaisonSecrete) {
         this.combinaisonSecrete = combinaisonSecrete;
+    }
+
+    public ArrayList<Color> getCopieCombinaisonSecrete() {
+        return copieCombinaisonSecrete;
+    }
+
+    public void setCopieCombinaisonSecrete(ArrayList<Color> copieCombinaisonSecrete) {
+        this.copieCombinaisonSecrete = copieCombinaisonSecrete;
     }
 
     public Integer getN() {
@@ -114,7 +121,12 @@ public class PlateauModel {
     }
 
     public void setCombinaisonJoueur(ArrayList<Color> combinaisonJoueur) {
-        this.combinaisonJoueur = combinaisonJoueur;
+       this.combinaisonJoueur = combinaisonJoueur;
     }
+
+    public void viderCombinaisonJoueur(ArrayList<Color> combinaisonJoueur) {
+        combinaisonJoueur.clear();
+    }
+
 
 }

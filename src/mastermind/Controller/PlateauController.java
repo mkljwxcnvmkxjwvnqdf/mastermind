@@ -16,6 +16,8 @@ public class PlateauController implements CombinaisonController {
     private String pion2;
     private String pion3;
     private String pion4;
+    private final Integer BIEN_PLACE = -1;
+    private final Integer MAL_PLACE = 0;
     private int lastInsertId;
     Connection conn = Bdd.getInstance().getConn();
 
@@ -38,6 +40,7 @@ public class PlateauController implements CombinaisonController {
         System.out.println("Combinaison secrète : " + model.getCombinaisonSecrete());
         System.out.println("Couleurs choisies : " + model.getColors());
         model.setCombinaisonSecrete(model.getCombinaisonSecrete());
+        model.setCopieCombinaisonSecrete(model.getCombinaisonSecrete());
         model.setC1("#" + Integer.toHexString(model.getCombinaisonSecrete().get(0).getRGB()).substring(2));
         model.setC2("#" + Integer.toHexString(model.getCombinaisonSecrete().get(1).getRGB()).substring(2));
         model.setC3("#" + Integer.toHexString(model.getCombinaisonSecrete().get(2).getRGB()).substring(2));
@@ -57,6 +60,9 @@ public class PlateauController implements CombinaisonController {
 
     @Override
     public ArrayList<Color> saisirCmb(ArrayList<Color> c, Integer n, Integer m) {
+        if (!(model.getCombinaisonJoueur().isEmpty())) {
+            model.viderCombinaisonJoueur(model.getCombinaisonJoueur());
+        }
         for (int i = 0; i < n; i++) {
             int iterationRandom = (int) ((Math.random() * c.size()));
             model.getCombinaisonJoueur().add(c.get(iterationRandom));
@@ -73,6 +79,8 @@ public class PlateauController implements CombinaisonController {
         System.out.println(getPion3());
         System.out.println(getPion4());
         //this.newTour(getPion1(), getPion2(), getPion3(),getPion4());
+        trouverBienPlaces(model.getCopieCombinaisonSecrete(), model.getCombinaisonJoueur(), n);
+        position(2, model.getCombinaisonJoueur());
         return model.getCombinaisonJoueur();
     }
 
@@ -86,11 +94,36 @@ public class PlateauController implements CombinaisonController {
 
 
         this.genererCmb(model.getColors(), 4, 6);
-       // this.afficherCmb(model.getCombinaisonSecrete(), 4);
+        // this.afficherCmb(model.getCombinaisonSecrete(), 4);
 
         this.saisirCmb(model.getColors(), 4, 6);
         this.saisirCmb(model.getColors(), 4, 6);
-       // this.afficherCmb(model.getCombinaisonJoueur(), 4);
+        // this.afficherCmb(model.getCombinaisonJoueur(), 4);
+    }
+
+    public int trouverBienPlaces(ArrayList<Color> copieCombinaisonSecrete, ArrayList<Color> combinaisonJoueur, int n) {
+        int nbp = 0;
+        System.out.println(copieCombinaisonSecrete);
+        for (int i = 0; i < n; i++) {
+            if (copieCombinaisonSecrete.get(i) == combinaisonJoueur.get(i)) {
+                copieCombinaisonSecrete.set(i, Color.black);
+                nbp++;
+            }
+        }
+        System.out.println(copieCombinaisonSecrete);
+        System.out.println(nbp);
+        return nbp;
+    }
+
+    public Color position(int valeurPosition, ArrayList<Color> combinaison) {
+        int positionSouhaitee = 0;
+            if (combinaison.get(valeurPosition).equals(combinaison.size())) {
+                positionSouhaitee = -1;
+            } else {
+                positionSouhaitee = combinaison.set(valeurPosition, Color.black);
+            }
+            System.out.println(positionSouhaitee);
+            return positionSouhaitee;
     }
 
     @Override
