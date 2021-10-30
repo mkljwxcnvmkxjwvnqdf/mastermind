@@ -7,7 +7,8 @@ import java.util.Random;
 public class PlateauModel {
 
     private ArrayList<Color> colors = new ArrayList<Color>();
-    private ArrayList<Color> combinaison = new ArrayList<Color>();
+    private ArrayList<Color> combinaisonSecrete = new ArrayList<Color>();
+    private ArrayList<Color> combinaisonJoueur = new ArrayList<Color>();
     private final Integer CMAX = 6;
     private final Integer BIEN_PLACE = -1;
     private final Integer MAL_PLACE = 0;
@@ -17,6 +18,7 @@ public class PlateauModel {
     private String c2;
     private String c3;
     private String c4;
+
 
     public PlateauModel(Integer MAX_TENTATIVES, Integer n, Integer m) {
         this.n = n;
@@ -39,23 +41,23 @@ public class PlateauModel {
         this.colors = colors;
     }
 
-    public ArrayList<Color> getCombinaison() {
-        return combinaison;
+    public ArrayList<Color> getCombinaisonSecrete() {
+        return combinaisonSecrete;
     }
 
     public ArrayList<Color> getEverySymbolOfCombinaison() {
         Color combi = null;
         int i = 0;
-        for (Color combinaison : getCombinaison()) {
+        for (Color combinaison : getCombinaisonSecrete()) {
             i++;
             combi = combinaison;
             System.out.println("Couleur numéro " + i + " de la combinaison : " + combi);
         }
-        return combinaison;
+        return combinaisonSecrete;
     }
 
-    public void setCombinaison(ArrayList<Color> combinaison) {
-        this.combinaison = combinaison;
+    public void setCombinaisonSecrete(ArrayList<Color> combinaisonSecrete) {
+        this.combinaisonSecrete = combinaisonSecrete;
     }
 
     public Integer getN() {
@@ -105,4 +107,14 @@ public class PlateauModel {
     public void setC4(String c4) {
         this.c4 = c4;
     }
+
+
+    public ArrayList<Color> getCombinaisonJoueur() {
+        return combinaisonJoueur;
+    }
+
+    public void setCombinaisonJoueur(ArrayList<Color> combinaisonJoueur) {
+        this.combinaisonJoueur = combinaisonJoueur;
+    }
+
 }

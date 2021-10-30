@@ -5,15 +5,18 @@ import mastermind.View.PlateauView;
 
 import java.awt.*;
 import java.lang.reflect.Array;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
 public class PlateauController implements CombinaisonController {
     private PlateauModel model;
+    private String pion1;
+    private String pion2;
+    private String pion3;
+    private String pion4;
+    private int lastInsertId;
     Connection conn = Bdd.getInstance().getConn();
 
 
@@ -22,50 +25,72 @@ public class PlateauController implements CombinaisonController {
     }
 
     @Override
-    public ArrayList<Color> genererCmb(ArrayList<Color> c, Integer n, Integer m) {
-        String c1;
-        String c2;
-        String c3;
-        String c4;
+    public void genererCmb(ArrayList<Color> c, Integer n, Integer m) {
         int difference = c.size() - m;
-        ArrayList<Color> combiQuatreCouleur = new ArrayList<Color>();
         for (int i = 0; i < difference; i++) {
             int iterationRandom = (int) ((Math.random() * c.size()));
             c.remove(iterationRandom);
         }
         for (int i = 0; i < n; i++) {
             int iterationRandom2 = (int) ((Math.random() * c.size()));
-            combiQuatreCouleur.add(c.get(iterationRandom2));
+            model.getCombinaisonSecrete().add(c.get(iterationRandom2));
         }
-        System.out.println(combiQuatreCouleur);
-        model.setCombinaison(combiQuatreCouleur);
-        c1 = "#" + Integer.toHexString(combiQuatreCouleur.get(0).getRGB()).substring(2);
-        c2 = "#" + Integer.toHexString(combiQuatreCouleur.get(1).getRGB()).substring(2);
-        c3 = "#" + Integer.toHexString(combiQuatreCouleur.get(2).getRGB()).substring(2);
-        c4 = "#" + Integer.toHexString(combiQuatreCouleur.get(3).getRGB()).substring(2);
-        /*
-        System.out.println("c1 : " +c1);
-        System.out.println(c3);
-        System.out.println(c4);
-        */
-        this.Ajout(c1, c2, c3, c4);
-        return combiQuatreCouleur;
+        System.out.println("Combinaison secrète : " + model.getCombinaisonSecrete());
+        System.out.println("Couleurs choisies : " + model.getColors());
+        model.setCombinaisonSecrete(model.getCombinaisonSecrete());
+        model.setC1("#" + Integer.toHexString(model.getCombinaisonSecrete().get(0).getRGB()).substring(2));
+        model.setC2("#" + Integer.toHexString(model.getCombinaisonSecrete().get(1).getRGB()).substring(2));
+        model.setC3("#" + Integer.toHexString(model.getCombinaisonSecrete().get(2).getRGB()).substring(2));
+        model.setC4("#" + Integer.toHexString(model.getCombinaisonSecrete().get(3).getRGB()).substring(2));
+
+        System.out.println(model.getC1());
+        System.out.println(model.getC2());
+        System.out.println(model.getC3());
+        System.out.println(model.getC4());
+
+       /* try {
+            this.newPartie(model.getC1(), model.getC2(), model.getC3(), model.getC4());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }*/
     }
 
     @Override
     public ArrayList<Color> saisirCmb(ArrayList<Color> c, Integer n, Integer m) {
-        return null;
+        for (int i = 0; i < n; i++) {
+            int iterationRandom = (int) ((Math.random() * c.size()));
+            model.getCombinaisonJoueur().add(c.get(iterationRandom));
+        }
+        System.out.println("Combinaison du joueur : " + model.getCombinaisonJoueur());
+        model.setCombinaisonJoueur(model.getCombinaisonJoueur());
+        setPion1("#" + Integer.toHexString(model.getCombinaisonJoueur().get(0).getRGB()).substring(2));
+        setPion2("#" + Integer.toHexString(model.getCombinaisonJoueur().get(1).getRGB()).substring(2));
+        setPion3("#" + Integer.toHexString(model.getCombinaisonJoueur().get(2).getRGB()).substring(2));
+        setPion4("#" + Integer.toHexString(model.getCombinaisonJoueur().get(3).getRGB()).substring(2));
+
+        System.out.println(getPion1());
+        System.out.println(getPion2());
+        System.out.println(getPion3());
+        System.out.println(getPion4());
+        //this.newTour(getPion1(), getPion2(), getPion3(),getPion4());
+        return model.getCombinaisonJoueur();
     }
 
     @Override
-    public ArrayList<Color> afficherCmb(ArrayList<Color> combiQuatreCouleur, Integer n) {
-        System.out.println("La combinaison " + model.getCombinaison() + " est une combinaison de " + n + " symboles");
-        return model.getCombinaison();
+    public ArrayList<Color> afficherCmb(ArrayList<Color> combinaison, Integer n) {
+        System.out.println("La combinaison " + combinaison + " est une combinaison de " + n + " symboles");
+        return combinaison;
     }
 
-    public void test_cmb(ArrayList<Color> combiQuatreCouleur, Integer n, Integer m) {
-       this.genererCmb(model.getColors(),n,m);
-       this.afficherCmb(model.getCombinaison(),n);
+    public void test_cmb() {
+
+
+        this.genererCmb(model.getColors(), 4, 6);
+       // this.afficherCmb(model.getCombinaisonSecrete(), 4);
+
+        this.saisirCmb(model.getColors(), 4, 6);
+        this.saisirCmb(model.getColors(), 4, 6);
+       // this.afficherCmb(model.getCombinaisonJoueur(), 4);
     }
 
     @Override
@@ -73,9 +98,21 @@ public class PlateauController implements CombinaisonController {
 
     }
 
-    public void Ajout(String c1, String c2, String c3, String c4) {
+    public void newPartie(String c1, String c2, String c3, String c4) throws SQLException {
         String prenom = "Laurent";
-        String requete = "INSERT INTO partie VALUES (NULL,'" + prenom + "','" + c1 + "','" + c2 + "','" + c3 + "','" + c4 + "')";
+        Statement statement = conn.createStatement();
+        PreparedStatement insertion = conn.prepareStatement(
+                "INSERT INTO partie(idPartie,pseudo,c1,c2,c3,c4)" + "VALUES (NULL,'" + prenom + "','" + c1 + "','" + c2 + "','" + c3 + "','" + c4 + "')", Statement.RETURN_GENERATED_KEYS);
+        insertion.executeUpdate();
+        ResultSet RSid = insertion.getGeneratedKeys();
+        RSid.next();
+        int IdIntervention = RSid.getInt(1);
+        setLastInsertId(IdIntervention);
+
+    }
+
+    public void newTour(String pion1, String pion2, String pion3, String pion4) {
+        String requete = "INSERT INTO tour VALUES (NULL,'" + pion1 + "','" + pion2 + "','" + pion3 + "','" + pion4 + "'," + getLastInsertId() + ")";
         System.out.println(requete);
         try {
 
@@ -88,5 +125,45 @@ public class PlateauController implements CombinaisonController {
             System.out.println("Erreur");
         }
 
+    }
+
+    public String getPion1() {
+        return pion1;
+    }
+
+    public void setPion1(String pion1) {
+        this.pion1 = pion1;
+    }
+
+    public String getPion2() {
+        return pion2;
+    }
+
+    public void setPion2(String pion2) {
+        this.pion2 = pion2;
+    }
+
+    public String getPion3() {
+        return pion3;
+    }
+
+    public void setPion3(String pion3) {
+        this.pion3 = pion3;
+    }
+
+    public String getPion4() {
+        return pion4;
+    }
+
+    public void setPion4(String pion4) {
+        this.pion4 = pion4;
+    }
+
+    public int getLastInsertId() {
+        return lastInsertId;
+    }
+
+    public void setLastInsertId(int lastInsertId) {
+        this.lastInsertId = lastInsertId;
     }
 }
