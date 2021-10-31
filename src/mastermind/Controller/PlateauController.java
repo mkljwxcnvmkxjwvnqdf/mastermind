@@ -16,8 +16,8 @@ public class PlateauController implements CombinaisonController {
     private String pion2;
     private String pion3;
     private String pion4;
-    private final Integer BIEN_PLACE = -1;
-    private final Integer MAL_PLACE = 0;
+    private final Color BIEN_PLACE = Color.black;
+    private final Color MAL_PLACE = Color.white;
     private int lastInsertId;
     Connection conn = Bdd.getInstance().getConn();
 
@@ -37,19 +37,18 @@ public class PlateauController implements CombinaisonController {
             int iterationRandom2 = (int) ((Math.random() * c.size()));
             model.getCombinaisonSecrete().add(c.get(iterationRandom2));
         }
-        System.out.println("Combinaison secrète : " + model.getCombinaisonSecrete());
-        System.out.println("Couleurs choisies : " + model.getColors());
+        //System.out.println("Combinaison secrète   : " + model.getCombinaisonSecrete());
+        // System.out.println("Couleurs choisies : " + model.getColors());
         model.setCombinaisonSecrete(model.getCombinaisonSecrete());
-        model.setCopieCombinaisonSecrete(model.getCombinaisonSecrete());
         model.setC1("#" + Integer.toHexString(model.getCombinaisonSecrete().get(0).getRGB()).substring(2));
         model.setC2("#" + Integer.toHexString(model.getCombinaisonSecrete().get(1).getRGB()).substring(2));
         model.setC3("#" + Integer.toHexString(model.getCombinaisonSecrete().get(2).getRGB()).substring(2));
         model.setC4("#" + Integer.toHexString(model.getCombinaisonSecrete().get(3).getRGB()).substring(2));
 
-        System.out.println(model.getC1());
-        System.out.println(model.getC2());
-        System.out.println(model.getC3());
-        System.out.println(model.getC4());
+        //System.out.println(model.getC1());
+        //System.out.println(model.getC2());
+        //System.out.println(model.getC3());
+        //System.out.println(model.getC4());
 
        /* try {
             this.newPartie(model.getC1(), model.getC2(), model.getC3(), model.getC4());
@@ -73,14 +72,13 @@ public class PlateauController implements CombinaisonController {
         setPion2("#" + Integer.toHexString(model.getCombinaisonJoueur().get(1).getRGB()).substring(2));
         setPion3("#" + Integer.toHexString(model.getCombinaisonJoueur().get(2).getRGB()).substring(2));
         setPion4("#" + Integer.toHexString(model.getCombinaisonJoueur().get(3).getRGB()).substring(2));
-
-        System.out.println(getPion1());
-        System.out.println(getPion2());
-        System.out.println(getPion3());
-        System.out.println(getPion4());
+        //System.out.println(getPion1());
+        //System.out.println(getPion2());
+        //System.out.println(getPion3());
+        //System.out.println(getPion4());
         //this.newTour(getPion1(), getPion2(), getPion3(),getPion4());
-        trouverBienPlaces(model.getCopieCombinaisonSecrete(), model.getCombinaisonJoueur(), n);
-        position(2, model.getCombinaisonJoueur());
+        //trouverMalPlaces(model.getCopieCombinaisonSecrete(), model.getCombinaisonJoueur());
+        //position(3, model.getCombinaisonJoueur());
         return model.getCombinaisonJoueur();
     }
 
@@ -97,33 +95,57 @@ public class PlateauController implements CombinaisonController {
         // this.afficherCmb(model.getCombinaisonSecrete(), 4);
 
         this.saisirCmb(model.getColors(), 4, 6);
+        trouverBienPlaces(model.getCopieCombinaisonSecrete(), model.getCombinaisonJoueur());
         this.saisirCmb(model.getColors(), 4, 6);
+        trouverBienPlaces(model.getCopieCombinaisonSecrete(), model.getCombinaisonJoueur());
+        this.saisirCmb(model.getColors(), 4, 6);
+        trouverBienPlaces(model.getCopieCombinaisonSecrete(), model.getCombinaisonJoueur());
         // this.afficherCmb(model.getCombinaisonJoueur(), 4);
     }
 
-    public int trouverBienPlaces(ArrayList<Color> copieCombinaisonSecrete, ArrayList<Color> combinaisonJoueur, int n) {
+    public int trouverBienPlaces(ArrayList<Color> copieCombinaisonSecrete, ArrayList<Color> combinaisonJoueur) {
         int nbp = 0;
-        System.out.println(copieCombinaisonSecrete);
-        for (int i = 0; i < n; i++) {
+        System.out.println("Combinaison secrète   : " + model.getCombinaisonSecrete());
+        for (int i = 0; i < copieCombinaisonSecrete.size(); i++) {
             if (copieCombinaisonSecrete.get(i) == combinaisonJoueur.get(i)) {
-                copieCombinaisonSecrete.set(i, Color.black);
                 nbp++;
+               copieCombinaisonSecrete.set(i, BIEN_PLACE);
             }
+           /* if(model.getCombinaisonSecrete().get(i) != combinaisonJoueur.get(i)) {
+                copieCombinaisonSecrete.set(i,model.getCombinaisonSecrete().get(i));
+            } */
         }
-        System.out.println(copieCombinaisonSecrete);
+        System.out.println("Copie combi secrete   : " +copieCombinaisonSecrete);
         System.out.println(nbp);
         return nbp;
     }
 
-    public Color position(int valeurPosition, ArrayList<Color> combinaison) {
-        int positionSouhaitee = 0;
-            if (combinaison.get(valeurPosition).equals(combinaison.size())) {
-                positionSouhaitee = -1;
-            } else {
-                positionSouhaitee = combinaison.set(valeurPosition, Color.black);
+    public int trouverMalPlaces(ArrayList<Color> copieCombinaisonSecrete, ArrayList<Color> combinaisonJoueur) {
+        int nmp = 0;
+        System.out.println("Combinaison secrète   : " + model.getCombinaisonSecrete());
+        for (int i = 0; i < copieCombinaisonSecrete.size(); i++) {
+            for (int j = 0; j < combinaisonJoueur.size(); j++) {
+                if (copieCombinaisonSecrete.get(i) == combinaisonJoueur.get(j)) {
+                    copieCombinaisonSecrete.set(i, MAL_PLACE);
+                    nmp++;
+                }
             }
-            System.out.println(positionSouhaitee);
-            return positionSouhaitee;
+        }
+        System.out.println(copieCombinaisonSecrete);
+        System.out.println(nmp);
+        return nmp;
+    }
+
+    public Color position(int valeurPosition, ArrayList<Color> combinaison) {
+        Color positionSouhaitee = null;
+        Object[] color = combinaison.toArray();
+        if (valeurPosition > 0 && valeurPosition < color.length) { // vérifier la validité de l'indice
+            positionSouhaitee = (Color) color[valeurPosition];
+        } else {
+            System.out.println("Erreur la position souhaitée n'existe pas !!"); // mettre un popup qui dit ça existe pas à la place
+        }
+        System.out.println(positionSouhaitee);
+        return positionSouhaitee;
     }
 
     @Override

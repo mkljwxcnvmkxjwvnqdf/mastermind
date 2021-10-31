@@ -17,6 +17,7 @@ public class PlateauModel {
     private String c2;
     private String c3;
     private String c4;
+    private ArrayList<Color> reponse = new ArrayList<Color>();
 
 
     public PlateauModel(Integer MAX_TENTATIVES, Integer n, Integer m) {
@@ -26,10 +27,11 @@ public class PlateauModel {
         colors.add(Color.yellow);
         colors.add(Color.blue);
         colors.add(Color.orange);
-        colors.add(Color.black);
+        colors.add(new Color(66, 32, 4));
         colors.add(Color.magenta);
         colors.add(Color.cyan);
         colors.add(Color.green);
+        setCopieCombinaisonSecrete(getCombinaisonSecrete());
     }
 
     public ArrayList<Color> getColors() {
@@ -65,6 +67,14 @@ public class PlateauModel {
 
     public void setCopieCombinaisonSecrete(ArrayList<Color> copieCombinaisonSecrete) {
         this.copieCombinaisonSecrete = copieCombinaisonSecrete;
+    }
+
+    public ArrayList<Color> getReponse() {
+        return reponse;
+    }
+
+    public void setReponse(ArrayList<Color> reponse) {
+        this.reponse = reponse;
     }
 
     public Integer getN() {
