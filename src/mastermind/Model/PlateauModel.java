@@ -31,7 +31,6 @@ public class PlateauModel {
         colors.add(Color.magenta);
         colors.add(Color.cyan);
         colors.add(Color.green);
-        setCopieCombinaisonSecrete(getCombinaisonSecrete());
     }
 
     public ArrayList<Color> getColors() {
@@ -66,7 +65,8 @@ public class PlateauModel {
     }
 
     public void setCopieCombinaisonSecrete(ArrayList<Color> copieCombinaisonSecrete) {
-        this.copieCombinaisonSecrete = copieCombinaisonSecrete;
+        System.out.println(copieCombinaisonSecrete);
+        this.copieCombinaisonSecrete = (ArrayList<Color>) copieCombinaisonSecrete.clone();
     }
 
     public ArrayList<Color> getReponse() {

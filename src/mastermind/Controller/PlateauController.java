@@ -40,6 +40,7 @@ public class PlateauController implements CombinaisonController {
         //System.out.println("Combinaison secrète   : " + model.getCombinaisonSecrete());
         // System.out.println("Couleurs choisies : " + model.getColors());
         model.setCombinaisonSecrete(model.getCombinaisonSecrete());
+        model.setCopieCombinaisonSecrete((ArrayList<Color>) model.getCombinaisonSecrete().clone());
         model.setC1("#" + Integer.toHexString(model.getCombinaisonSecrete().get(0).getRGB()).substring(2));
         model.setC2("#" + Integer.toHexString(model.getCombinaisonSecrete().get(1).getRGB()).substring(2));
         model.setC3("#" + Integer.toHexString(model.getCombinaisonSecrete().get(2).getRGB()).substring(2));
@@ -96,10 +97,13 @@ public class PlateauController implements CombinaisonController {
 
         this.saisirCmb(model.getColors(), 4, 6);
         trouverBienPlaces(model.getCopieCombinaisonSecrete(), model.getCombinaisonJoueur());
+        trouverMalPlaces(model.getCopieCombinaisonSecrete(), model.getCombinaisonJoueur());
         this.saisirCmb(model.getColors(), 4, 6);
         trouverBienPlaces(model.getCopieCombinaisonSecrete(), model.getCombinaisonJoueur());
+        trouverMalPlaces(model.getCopieCombinaisonSecrete(), model.getCombinaisonJoueur());
         this.saisirCmb(model.getColors(), 4, 6);
         trouverBienPlaces(model.getCopieCombinaisonSecrete(), model.getCombinaisonJoueur());
+        trouverMalPlaces(model.getCopieCombinaisonSecrete(), model.getCombinaisonJoueur());
         // this.afficherCmb(model.getCombinaisonJoueur(), 4);
     }
 
