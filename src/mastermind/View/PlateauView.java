@@ -54,8 +54,10 @@ public class PlateauView extends JFrame implements ActionListener {
 
         //Ce qu'il y a dans l'onglet Joueur
         onglets.add("Joueur", p1);
+        //onglets.setEnabled(false);
         p1.add(t1);
         p1.add(b1);
+        p1.setEnabled(false);
         p1.add(onglets.add("sfg", p1_1));
 
         p1_1.add(bcolor1);
@@ -82,6 +84,16 @@ public class PlateauView extends JFrame implements ActionListener {
         p1_1.add(bcolor8);
         bcolor8.setEnabled(false);
         bcolor8.setBackground(Color.green);
+<<<<<<< HEAD
+
+        //Ce qu'il y a dans l'onglet Plateau
+        onglets.add("Plateau", p2);
+
+        //Ce qu'il y a dans l'onglet l'Historique
+        onglets.add("Historique", p3);
+
+=======
+>>>>>>> ff94ce757282e1dc96e917f144ba520a7aa798ed
         frame.add(onglets);
         frame.setLayout(null);
         frame.setVisible(true);
