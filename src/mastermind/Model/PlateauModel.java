@@ -8,6 +8,7 @@ public class PlateauModel {
 
     private ArrayList<Color> colors = new ArrayList<Color>();
     private ArrayList<Color> combinaisonSecrete = new ArrayList<Color>();
+    private ArrayList<Color> couleursChoisies = new ArrayList<Color>();
     private ArrayList<Color> copieCombinaisonSecrete = new ArrayList<Color>();
     private ArrayList<Color> combinaisonJoueur = new ArrayList<Color>();
     private final Integer CMAX = 6;
@@ -18,6 +19,7 @@ public class PlateauModel {
     private String c3;
     private String c4;
     private ArrayList<Color> reponse = new ArrayList<Color>();
+    private Color color1, color2, color3, color4, color5, color6;
 
 
     public PlateauModel(Integer MAX_TENTATIVES, Integer n, Integer m) {
@@ -56,6 +58,14 @@ public class PlateauModel {
         return combinaisonSecrete;
     }
 
+    public ArrayList<Color> getCouleursChoisies() {
+        return couleursChoisies;
+    }
+
+    public void setCouleursChoisies(ArrayList<Color> couleursChoisies) {
+        this.couleursChoisies = couleursChoisies;
+    }
+
     public void setCombinaisonSecrete(ArrayList<Color> combinaisonSecrete) {
         this.combinaisonSecrete = combinaisonSecrete;
     }
@@ -65,16 +75,19 @@ public class PlateauModel {
     }
 
     public void setCopieCombinaisonSecrete(ArrayList<Color> copieCombinaisonSecrete) {
-        System.out.println(copieCombinaisonSecrete);
         this.copieCombinaisonSecrete = (ArrayList<Color>) copieCombinaisonSecrete.clone();
     }
 
     public ArrayList<Color> getReponse() {
-        return reponse;
+        if(reponse != null) {
+            return reponse;
+        } else {
+            return null;
+        }
     }
 
     public void setReponse(ArrayList<Color> reponse) {
-        this.reponse = reponse;
+        this.reponse =  (ArrayList<Color>) reponse.clone();
     }
 
     public Integer getN() {
@@ -136,6 +149,54 @@ public class PlateauModel {
 
     public void viderCombinaisonJoueur(ArrayList<Color> combinaisonJoueur) {
         combinaisonJoueur.clear();
+    }
+
+    public Color getColor1() {
+        return color1;
+    }
+
+    public void setColor1(Color color1) {
+        this.color1 = color1;
+    }
+
+    public Color getColor2() {
+        return color2;
+    }
+
+    public void setColor2(Color color2) {
+        this.color2 = color2;
+    }
+
+    public Color getColor3() {
+        return color3;
+    }
+
+    public void setColor3(Color color3) {
+        this.color3 = color3;
+    }
+
+    public Color getColor4() {
+        return color4;
+    }
+
+    public void setColor4(Color color4) {
+        this.color4 = color4;
+    }
+
+    public Color getColor5() {
+        return color5;
+    }
+
+    public void setColor5(Color color5) {
+        this.color5 = color5;
+    }
+
+    public Color getColor6() {
+        return color6;
+    }
+
+    public void setColor6(Color color6) {
+        this.color6 = color6;
     }
 
 

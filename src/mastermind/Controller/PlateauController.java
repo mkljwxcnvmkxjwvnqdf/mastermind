@@ -12,6 +12,7 @@ import java.util.Random;
 
 public class PlateauController implements CombinaisonController {
     private PlateauModel model;
+    private PlateauView view = null;
     private String pion1;
     private String pion2;
     private String pion3;
@@ -29,9 +30,10 @@ public class PlateauController implements CombinaisonController {
     @Override
     public void genererCmb(ArrayList<Color> c, Integer n, Integer m) {
         int difference = c.size() - m;
+        model.setCouleursChoisies(c);
         for (int i = 0; i < difference; i++) {
             int iterationRandom = (int) ((Math.random() * c.size()));
-            c.remove(iterationRandom);
+            model.getCouleursChoisies().remove(c.get(iterationRandom));
         }
         for (int i = 0; i < n; i++) {
             int iterationRandom2 = (int) ((Math.random() * c.size()));
@@ -51,23 +53,24 @@ public class PlateauController implements CombinaisonController {
         //System.out.println(model.getC3());
         //System.out.println(model.getC4());
 
-       /* try {
+      /*  try {
             this.newPartie(model.getC1(), model.getC2(), model.getC3(), model.getC4());
         } catch (SQLException e) {
             e.printStackTrace();
-        }*/
+        } */
     }
 
     @Override
     public ArrayList<Color> saisirCmb(ArrayList<Color> c, Integer n, Integer m) {
         if (!(model.getCombinaisonJoueur().isEmpty())) {
             model.viderCombinaisonJoueur(model.getCombinaisonJoueur());
+            model.getReponse().clear();
         }
         for (int i = 0; i < n; i++) {
             int iterationRandom = (int) ((Math.random() * c.size()));
             model.getCombinaisonJoueur().add(c.get(iterationRandom));
         }
-        System.out.println("Combinaison du joueur : " + model.getCombinaisonJoueur());
+        // System.out.println("Combinaison du joueur : " + model.getCombinaisonJoueur());
         model.setCombinaisonJoueur(model.getCombinaisonJoueur());
         setPion1("#" + Integer.toHexString(model.getCombinaisonJoueur().get(0).getRGB()).substring(2));
         setPion2("#" + Integer.toHexString(model.getCombinaisonJoueur().get(1).getRGB()).substring(2));
@@ -78,65 +81,67 @@ public class PlateauController implements CombinaisonController {
         //System.out.println(getPion3());
         //System.out.println(getPion4());
         //this.newTour(getPion1(), getPion2(), getPion3(),getPion4());
-        //trouverMalPlaces(model.getCopieCombinaisonSecrete(), model.getCombinaisonJoueur());
+        model.setCopieCombinaisonSecrete((ArrayList<Color>) model.getCombinaisonSecrete().clone());
+        model.setReponse((ArrayList<Color>) model.getReponse().clone());
         //position(3, model.getCombinaisonJoueur());
+        afficherCmb(model.getCombinaisonSecrete(),n);
         return model.getCombinaisonJoueur();
     }
 
     @Override
     public ArrayList<Color> afficherCmb(ArrayList<Color> combinaison, Integer n) {
-        System.out.println("La combinaison " + combinaison + " est une combinaison de " + n + " symboles");
+        System.out.println("La combinaison " + combinaison + " est une combinaison de " + n + " symboles, la réponse est :" + model.getReponse());
+        System.out.println("Les couleurs choisies sont : " + model.getCouleursChoisies() + "Pion bien placé = " +  trouverBienPlaces());
+        System.out.println("Les couleurs choisies sont : " + model.getCouleursChoisies() + "Pion bien placé = " +  trouverMalPlaces());
         return combinaison;
     }
 
-    public void test_cmb() {
+    public void test_code() {
 
 
         this.genererCmb(model.getColors(), 4, 6);
         // this.afficherCmb(model.getCombinaisonSecrete(), 4);
 
         this.saisirCmb(model.getColors(), 4, 6);
-        trouverBienPlaces(model.getCopieCombinaisonSecrete(), model.getCombinaisonJoueur());
-        trouverMalPlaces(model.getCopieCombinaisonSecrete(), model.getCombinaisonJoueur());
         this.saisirCmb(model.getColors(), 4, 6);
-        trouverBienPlaces(model.getCopieCombinaisonSecrete(), model.getCombinaisonJoueur());
-        trouverMalPlaces(model.getCopieCombinaisonSecrete(), model.getCombinaisonJoueur());
         this.saisirCmb(model.getColors(), 4, 6);
-        trouverBienPlaces(model.getCopieCombinaisonSecrete(), model.getCombinaisonJoueur());
-        trouverMalPlaces(model.getCopieCombinaisonSecrete(), model.getCombinaisonJoueur());
+
+
         // this.afficherCmb(model.getCombinaisonJoueur(), 4);
     }
 
-    public int trouverBienPlaces(ArrayList<Color> copieCombinaisonSecrete, ArrayList<Color> combinaisonJoueur) {
+    public int trouverBienPlaces() {
         int nbp = 0;
-        System.out.println("Combinaison secrète   : " + model.getCombinaisonSecrete());
-        for (int i = 0; i < copieCombinaisonSecrete.size(); i++) {
-            if (copieCombinaisonSecrete.get(i) == combinaisonJoueur.get(i)) {
+        for (int i = 0; i < model.getCopieCombinaisonSecrete().size(); i++) {
+            if (model.getCombinaisonSecrete().get(i) == model.getCombinaisonJoueur().get(i)) {
                 nbp++;
-               copieCombinaisonSecrete.set(i, BIEN_PLACE);
+                model.getCopieCombinaisonSecrete().set(i, BIEN_PLACE);
+                model.getCombinaisonJoueur().set(i, MAL_PLACE);
+                model.getReponse().add(BIEN_PLACE);
             }
-           /* if(model.getCombinaisonSecrete().get(i) != combinaisonJoueur.get(i)) {
-                copieCombinaisonSecrete.set(i,model.getCombinaisonSecrete().get(i));
-            } */
         }
-        System.out.println("Copie combi secrete   : " +copieCombinaisonSecrete);
-        System.out.println(nbp);
+        System.out.println("Copie Bien Place = " + model.getCopieCombinaisonSecrete());
+        System.out.println("Réponse         = " + model.getReponse());
         return nbp;
     }
 
-    public int trouverMalPlaces(ArrayList<Color> copieCombinaisonSecrete, ArrayList<Color> combinaisonJoueur) {
+    public int trouverMalPlaces() {
         int nmp = 0;
-        System.out.println("Combinaison secrète   : " + model.getCombinaisonSecrete());
-        for (int i = 0; i < copieCombinaisonSecrete.size(); i++) {
-            for (int j = 0; j < combinaisonJoueur.size(); j++) {
-                if (copieCombinaisonSecrete.get(i) == combinaisonJoueur.get(j)) {
-                    copieCombinaisonSecrete.set(i, MAL_PLACE);
+
+        for (int i = 0; i < model.getCombinaisonSecrete().size(); i++) {
+            for (int j = 0; j < model.getCombinaisonJoueur().size(); j++) {
+                if (model.getCopieCombinaisonSecrete().get(i) == model.getCombinaisonJoueur().get(j) && model.getCombinaisonJoueur().get(j) != MAL_PLACE) {
                     nmp++;
+                    model.getCopieCombinaisonSecrete().set(i, MAL_PLACE);
+                    model.getCombinaisonJoueur().set(j, MAL_PLACE);
+                    j = model.getCombinaisonJoueur().size();
+                    model.getReponse().add(MAL_PLACE);
+
                 }
             }
         }
-        System.out.println(copieCombinaisonSecrete);
-        System.out.println(nmp);
+        System.out.println("Copie Mal Place = " + model.getCopieCombinaisonSecrete());
+        System.out.println("Réponse         = " + model.getReponse());
         return nmp;
     }
 
@@ -152,13 +157,8 @@ public class PlateauController implements CombinaisonController {
         return positionSouhaitee;
     }
 
-    @Override
-    public void copierCmb(String src, String dest, Integer n) {
-
-    }
-
     public void newPartie(String c1, String c2, String c3, String c4) throws SQLException {
-        String prenom = "Laurent";
+        String prenom = view.getT1();
         Statement statement = conn.createStatement();
         PreparedStatement insertion = conn.prepareStatement(
                 "INSERT INTO partie(idPartie,pseudo,c1,c2,c3,c4)" + "VALUES (NULL,'" + prenom + "','" + c1 + "','" + c2 + "','" + c3 + "','" + c4 + "')", Statement.RETURN_GENERATED_KEYS);
@@ -224,5 +224,9 @@ public class PlateauController implements CombinaisonController {
 
     public void setLastInsertId(int lastInsertId) {
         this.lastInsertId = lastInsertId;
+    }
+
+    public void addView(PlateauView view) {
+        this.view = view;
     }
 }
