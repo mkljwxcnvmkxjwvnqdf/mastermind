@@ -51,8 +51,10 @@ public class PlateauView extends JFrame{
 
         //Ce qu'il y a dans l'onglet Joueur
         onglets.add("Joueur", p1);
+        //onglets.setEnabled(false);
         p1.add(t1);
         p1.add(b1);
+        p1.setEnabled(false);
         p1.add(onglets.add("sfg", p1_1));
 
         p1_1.add(bcolor1);
@@ -79,7 +81,7 @@ public class PlateauView extends JFrame{
         p1_1.add(bcolor8);
         bcolor8.setEnabled(false);
         bcolor8.setBackground(Color.green);
-        
+
         //Ce qu'il y a dans l'onglet Plateau
         onglets.add("Plateau", p2);
 
