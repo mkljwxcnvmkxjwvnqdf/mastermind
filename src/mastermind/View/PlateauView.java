@@ -94,10 +94,6 @@ public class PlateauView extends JFrame implements ActionListener {
         Color couleur = null;
         this.newJpannel("Plateau");
         controller.test_code();
-        this.setAllColors();
-
-
-
     }
 
     public JPanel newJpannel(String name) {
